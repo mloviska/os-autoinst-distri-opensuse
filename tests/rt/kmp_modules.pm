@@ -17,35 +17,7 @@ use strict;
 use testapi;
 use utils;
 
-sub select_kernel {
-    my $kernel = shift;
-
-    assert_screen ['grub2', "grub2-$kernel-selected"], 100;
-    if (match_has_tag "grub2-$kernel-selected") {    # if requested kernel is selected continue
-        send_key 'ret';
-    }
-    else {                                           # else go to that kernel thru grub2 advanced options
-        send_key_until_needlematch 'grub2-advanced-options', 'down';
-        send_key 'ret';
-        send_key_until_needlematch "grub2-$kernel-selected", 'down';
-        send_key 'ret';
-    }
-    if (get_var('NOAUTOLOGIN')) {
-        my $ret = assert_screen 'displaymanager', 200;
-        mouse_hide();
-        if (get_var('DM_NEEDS_USERNAME')) {
-            type_string $username;
-        }
-        else {
-            wait_screen_change { send_key 'ret' };
-        }
-        type_password;
-        send_key 'ret';
-    }
-}
-
 sub run {
-    assert_screen 'generic-desktop';
     select_console 'root-console';
     # Stop packagekit
     systemctl 'mask packagekit.service';

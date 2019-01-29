@@ -15,8 +15,13 @@ use strict;
 use testapi;
 
 sub run {
-    assert_script_run "uname -v | grep -qo 'PREEMPT RT'";
-    assert_script_run "grep -q 1 /sys/kernel/realtime";
+    assert_script_run "uname -v | grep 'PREEMPT RT'";
+    assert_script_run "grep 1 /sys/kernel/realtime";
 }
+
+sub test_flags {
+    return {fatal => 1};
+}
+
 
 1;
