@@ -124,6 +124,12 @@ sub run {
     check_package(stage => 'in');
 }
 
+sub post_fail_hook {
+    type_string "\n";
+    script_run 'cat /proc/cmdline';
+    script_run 'cat /proc/consoles';
+}
+
 sub test_flags {
     return {no_rollback => 1};
 }
