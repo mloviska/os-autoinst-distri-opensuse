@@ -20,6 +20,7 @@ use warnings;
 use base "opensusebasetest";
 use testapi;
 use version_utils qw(is_staging is_opensuse is_leap);
+use Utils::Architectures qw(is_s390x);
 use transactional;
 use utils;
 
@@ -76,6 +77,8 @@ sub run {
 
     # Find snapshot number for rollback
     my $snap = script_output "snapper list | tail -1 | cut -d'|' -f1 | tr -d ' *'";
+    # For s390x we use only 1 console that can be polluted by btrfs kernel messages
+    ($snap) = $snap =~ /(\d+$)/ if is_s390x;
 
     # Don't use tests requiring repos in staging
     unless (is_opensuse && is_staging) {
