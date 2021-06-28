@@ -42,7 +42,15 @@ sub parse_bug_refs {
 
 sub run {
     my $self = shift;
-    my $res  = Mojo::UserAgent->new->get(data_url('journal_check/bug_refs.json'))->result;
+    use Data::Dumper;
+    my $test = data_url('journal_check/bug_refs.json');
+    print "TEST ... " . Dumper($test);
+    my $ua  = Mojo::UserAgent->new;
+    print "TESTb ... " . Dumper($ua);
+    $ua->connect_timeout(15)->request_timeout(5);
+    print "TESTa ... " . Dumper($ua);
+    my $res  = $ua->get($test)->result;
+    print "TEST ... " . Dumper($res);
     $res->is_success or die "Could not download file with bug refs";
     my $bug_pattern = parse_bug_refs($res);
 
