@@ -16,6 +16,7 @@ schedule:
   - autoyast/logs
   - console/textinfo
   - '{{maintenance}}'
+  - transactional/disable_grub
   - microos/networking
   - microos/libzypp_config
   - microos/one_line_checks

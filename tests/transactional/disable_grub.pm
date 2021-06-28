@@ -22,6 +22,8 @@ sub run {
     select_console 'root-console';
     assert_script_run("sed -i 's/GRUB_TIMEOUT=10/GRUB_TIMEOUT=-1/' /etc/default/grub");
     assert_script_run('transactional-update grub.cfg');
+    upload_logs '/etc/default/grub';
+    upload_logs '/boot/grub2/grub.cfg';
     process_reboot(trigger => 1);
 }
 
