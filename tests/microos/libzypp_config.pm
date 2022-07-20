@@ -14,6 +14,8 @@ use testapi;
 use version_utils qw(is_jeos);
 
 sub run {
+    my ($self) = @_;
+    $self->select_serial_terminal();
     unless (check_var('FLAVOR', 'JeOS-for-AArch64') || check_var('FLAVOR', 'JeOS-for-RPi')) {
         assert_script_run 'egrep -x "^solver.onlyRequires ?= ?true" /etc/zypp/zypp.conf';
         assert_script_run 'egrep -x "^rpm.install.excludedocs ?= ?yes" /etc/zypp/zypp.conf';
