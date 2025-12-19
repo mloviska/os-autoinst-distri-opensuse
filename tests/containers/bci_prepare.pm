@@ -108,6 +108,7 @@ sub prepare_virtual_env {
 
     assert_script_run("$python --version");
     assert_script_run("$python -m venv bci") if $should_create_venv;
+    sleep;
     assert_script_run("source $virtualenv");
     assert_script_run("$python -m pip --quiet install --upgrade pip", timeout => $install_timeout) if $should_pip_upgrade;
     assert_script_run("$pip --quiet install tox", timeout => $install_timeout);
