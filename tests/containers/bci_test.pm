@@ -133,7 +133,15 @@ sub run {
 
     reset_container_network_if_needed($engine);
 
-    assert_script_run('source bci/bin/activate');
+    assert_script_run("pwd");
+    assert_script_run("ls -la bci/bin");
+    assert_script_run('readlink bci/bin/activate');
+    #assert_script_run('source bci/bin/activate');
+    assert_script_run 'rpm -qi venv-salt-minion';
+    assert_script_run 'rpm -ql venv-salt-minion | grep activate';
+    assert_script_run 'ls -al /usr/lib/venv-salt-minion/bin/activate';
+    assert_script_run 'head -n 1 /usr/lib/venv-salt-minion/bin/activate';
+    assert_script_run('source /usr/lib/venv-salt-minion/bin/activate');
 
     record_info('Run', "Starting the tests for the following environments:\n$test_envs");
     assert_script_run("cd /root/BCI-tests && git fetch && git reset --hard $bci_tests_branch");
